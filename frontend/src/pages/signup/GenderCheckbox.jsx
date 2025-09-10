@@ -1,27 +1,34 @@
 import React, { useState } from "react";
 
-const GenderCheckbox = () => {
-  const [selectedGender, setSelectedGender] = useState(null);
+const GenderCheckbox = ({ inputs, setInputs }) => {
   return (
     <div className="flex mt-2 space-x-2">
       <div className="form-control">
-        <label className={`label gap-2 cursor-pointer`}>
+        <label
+          className={`label gap-2 cursor-pointer ${
+            inputs.gender === "male" ? "selected" : ""
+          }`}
+        >
           <span className="label-text">Male</span>
           <input
             type="checkbox"
-            onChange={() => setSelectedGender("male")}
-            checked={selectedGender === "male"}
+            onChange={() => setInputs({ ...inputs, gender: "male" })}
+            checked={inputs.gender === "male"}
             className="checkbox border-slate-900"
           />
         </label>
       </div>
       <div className="form-control">
-        <label className={`label gap-2 cursor-pointer`}>
+        <label
+          className={`label gap-2 cursor-pointer ${
+            inputs.gender === "female" ? "selected" : ""
+          }`}
+        >
           <span className="label-text">Female</span>
           <input
             type="checkbox"
-            onChange={() => setSelectedGender("female")}
-            checked={selectedGender === "female"}
+            onChange={() => setInputs({ ...inputs, gender: "female" })}
+            checked={inputs.gender === "female"}
             className="checkbox border-slate-900"
           />
         </label>
