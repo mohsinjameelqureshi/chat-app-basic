@@ -1,5 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import { ApiError } from "./utils/apiError.js";
 
 const app = express();
 
@@ -28,5 +29,29 @@ app.use("/api/v1/messages", messageRoutes);
 
 // users
 app.use("/api/v1/users", userRoutes);
+
+// --------------------
+// ✅ Global Error Handler
+// --------------------
+app.use((err, req, res, next) => {
+  console.error(err); // always log error to terminal
+
+  if (err instanceof ApiError) {
+    return res.status(err.statusCode).json({
+      success: err.success,
+      message: err.message,
+      errors: err.errors,
+      data: err.data,
+      ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+    });
+  }
+
+  // fallback for unexpected errors
+  return res.status(500).json({
+    success: false,
+    message: "Internal Server Error",
+    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+  });
+});
 
 export { app };

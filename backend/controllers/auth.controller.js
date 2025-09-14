@@ -82,13 +82,7 @@ const singup = asyncHandler(async (req, res) => {
       .status(201)
       .cookie("accessToken", accessToken, OPTIONS)
       .cookie("refreshToken", refreshToken, OPTIONS)
-      .json(
-        new ApiResponse(
-          201,
-          { user: safeUser, accessToken, refreshToken },
-          "success"
-        )
-      );
+      .json(new ApiResponse(201, { user: safeUser, accessToken }, "success"));
   } catch (error) {
     console.error("Error while creating user", error.message);
     throw new ApiError(500, "Something went wrong while creating user.");
