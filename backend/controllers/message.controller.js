@@ -38,7 +38,9 @@ const sendMessage = asyncHandler(async (req, res) => {
     // this will run in parallel
     await Promise.all([conversation.save(), newMessage.save()]);
 
-    res.status(200).json(newMessage);
+    res
+      .status(200)
+      .json(new ApiResponse(200, newMessage, "Message send successfully"));
   } catch (error) {
     console.error(error?.message);
     throw new ApiError(500, "Error in Send Message controller");
